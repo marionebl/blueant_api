@@ -1,43 +1,12 @@
-import getpass, keyring
 from functools import wraps
 from zeep import CachingClient as Client
 from zeep.exceptions import Fault
-from ..common.util import sessionID
 
-def client():
-    return Client(config.load()['url'] + 'BaseService?wsdl')
+def client(c):
+    return Client(c.url + 'BaseService?wsdl')
 
+def login(c, username, password):
+    return client(c).service.Login(username, password)
 
-def login():
-    username = (config.load() or config.reconfigure())['username']
-    password = keyring.get_password('flik', username) or getpass.getpass()
-
-    session = client().service.Login(username, password)
-    storage.writeShare('sessionID', session.sessionID)
-    keyring.set_password('flik', username, password)
-
-
-def logout():
-    keyring.delete_password('flik', config.load()['username'])
-    client().service.Logout(sessionID())
-
-
-def autologin(func):
-
-    """Retry with login when session expired."""
-
-    @wraps(func)
-    def __wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except AssertionError as e:
-            # temporary workaround until zeep raw_response is not necessary anymore
-            login()
-            return func(*args, **kwargs)
-        except Fault as e:
-            if e.message == 'Ihre Sitzung ist ungültig!':
-                login()
-                return func(*args, **kwargs)
-            else:
-                raise e
-    return __wrapper
+def logout(c, sessionId):
+    client(c).service.Logout(sessionId)

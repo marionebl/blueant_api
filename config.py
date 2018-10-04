@@ -1,1 +1,1 @@
-API_URL = "https://blueant.sinnerschrader.com/blueant/"
+API_URL = "https://blueant-uat.sinnerschrader.com/blueant/services/"
