@@ -1,1 +1,0 @@
-API_URL = "https://blueant-uat.sinnerschrader.com/blueant/services/"

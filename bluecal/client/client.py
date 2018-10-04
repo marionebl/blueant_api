@@ -5,7 +5,7 @@ class Client:
         self.url = url
 
     def login(self, username, password):
-        baseService.login(self, username, password)
+        return baseService.login(self, username, password)
 
     def logout(self, session):
-        baseService.logout(self, session)
+        return baseService.logout(self, session)
