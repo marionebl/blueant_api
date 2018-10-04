@@ -7,8 +7,11 @@ app.config.from_object('config')
 
 @app.route("/login", methods=["POST"])
 def login():
-    username = request.form.get("username")
-    password = request.form.get("password")
+    json = request.get_json()
+    data = request.form if json is None else json;
+
+    username = data.get("username")
+    password = data.get("password")
 
     client = Client(app.config['API_URL'])
     session = client.login(username, password)
