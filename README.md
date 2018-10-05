@@ -3,7 +3,7 @@
 ```bash
 python3 -m venv .venv
 source .venv/bin/active
-pip install --upgrade pip pipenv
+pip install --upgrade pip==18.0 pipenv
 pipenv sync
 pipenv shell
 
