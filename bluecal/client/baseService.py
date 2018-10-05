@@ -3,7 +3,6 @@ from zeep import CachingClient as Client
 from zeep.exceptions import Fault
 
 def client(c):
-    print(c.url + 'BaseService?wsdl')
     return Client(c.url + 'BaseService?wsdl')
 
 def login(c, username, password):

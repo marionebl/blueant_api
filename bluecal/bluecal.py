@@ -78,17 +78,74 @@ def login():
         session = client.login(username, password)
 
         return jsonify(
-            sessionID=session.sessionID,
-            personID=session.personID
+            sessionID=session.get("sessionID"),
+            personID=session.get("personID")
         )
     except Fault as error:
         error_type = error.message.split(":")[-1]
         error_type = error_type.strip() if type(error_type) is str else "Unknown"
 
         if error_type == "InvalidUsernamePasswordCombinationException":
-            raise Unauthorized(error.message, payload=dict(error_type=error_type))
+            raise Unauthorized(
+                error.message, payload=dict(error_type=error_type))
         else:
-            raise InternalServerError(error.message, payload=dict(error_type=error_type))
+            raise InternalServerError(
+                error.message, payload=dict(error_type=error_type))
+
+
+@app.route("/projects", methods=["GET"])
+def projects():
+    """Get a list of projects for the user
+    ---
+    tags:
+      - Project
+    parameters:
+      - name: X-Session-ID
+        in: header
+        type: string
+        required: true
+      - name: X-Person-ID
+        in: header
+        type: string
+        required: true
+    definitions:
+      Project:
+        type: object
+        properties:
+          billable:
+            type: boolean
+          commentCompulsory:
+            type: boolean
+          endTime:
+            type: date
+          indirectCostCenterAllowed:
+            type: boolean
+          name:
+            type: string
+          projectID:
+            type: number
+          startTime:
+            type: date
+          taskCompulsory:
+            type: boolean
+    responses:
+      200:
+        description: A list of projects the currently logged in user may book to
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Project'
+        examples:
+          Projects: [ { "billable": false, "commentCompulsory": true, "endTime": "Sun, 30 Sep 2018 21:59:59 GMT", "indirectCostCenterAllowed": false, "name": "Project A", "projectID": 4149780374, "startTime": "Thu, 31 Aug 2017 22:00:00 GMT", "taskCompulsory": true }, { "billable": true, "commentCompulsory": true, "endTime": "Sat, 31 Aug 2019 21:59:59 GMT", "indirectCostCenterAllowed": false, "name": "Project B", "projectID": 6467144832, "startTime": "Fri, 31 Aug 2018 22:00:00 GMT", "taskCompulsory": true }]
+    """
+
+    client = Client(app.config['API_URL'])
+    client.session = dict(
+        sessionID=request.headers.get('X-Session-ID'),
+        personID=request.headers.get('X-Person-ID')
+    )
+
+    return jsonify(client.list_projects())
 
 class JSONException(Exception):
     status_code = 500
@@ -102,6 +159,7 @@ class JSONException(Exception):
         rv = dict(self.payload or ())
         rv['message'] = self.message
         return rv
+
 
 class Unauthorized(JSONException):
     status_code = 401

@@ -1,4 +1,4 @@
 from zeep import CachingClient as Client
 
-def client():
-    return Client(config.load()['url'] + 'HumanService?wsdl')
+def client(c):
+    return Client(c.url + 'HumanService?wsdl')
