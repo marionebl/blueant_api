@@ -9,6 +9,7 @@ zeep = "*"
 flask-restful = "*"
 keyring = "*"
 pendulum = "*"
+flasgger = "*"
 
 [dev-packages]
 "autopep8" = "*"
