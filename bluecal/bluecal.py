@@ -12,11 +12,13 @@ app.config['SWAGGER'] = {
 
 swagger = Swagger(app)
 
-@app.route("/login", methods=["POST"])
+@app.route("/auth/login", methods=["POST"])
 def login():
     """Log in to BlueAnt by providing username and password.
     Will yield a session id that can be used to authenticate other requests.
     ---
+    tags:
+      - Authentication
     parameters:
       - name: username
         in: formData
