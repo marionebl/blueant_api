@@ -1,0 +1,34 @@
+Get a list of available activities for the current user
+---
+tags:
+  - Activity
+parameters:
+  - name: X-Session-ID
+    in: header
+    type: string
+    required: true
+  - name: X-Person-ID
+    in: header
+    type: string
+    required: true
+definitions:
+  Activity:
+    type: object
+    properties:
+      active:
+        type: boolean
+      activityID:
+        type: number
+      defaultvalue:
+        type: boolean
+      name:
+        type: string
+responses:
+  200:
+    description: A list of activities that may be used to book hours
+    schema:
+      type: array
+      items:
+        $ref: '#/definitions/Activity'
+    examples:
+      Projects: [ { "active": true, "activityID": 9982047, "defaultvalue": true, "name": "Productive" } ]

@@ -1,8 +1,15 @@
-from zeep import CachingClient as Client
+from zeep import CachingClient as Client, helpers
 from ..common.util import quote
 
 def client(c):
     return Client(c.url + 'MasterDataService?wsdl')
+
+def get_activities(c):
+    activities = client(c).service.getActivities(
+        sessionID=c.session.get('sessionID'),
+        defaultvalue=False
+    )
+    return list(map(lambda activity: helpers.serialize_object(activity), activities))
 
 def syncActivities(c):
     raw_activities = client(c).service.getActivities(

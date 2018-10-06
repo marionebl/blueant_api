@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, abort, Response
 from flasgger import Swagger,swag_from
 from zeep.exceptions import Fault
 from .client.client import Client
+from .routes.activities import activities
 from .routes.login import login
 from .routes.projects import projects
 from .routes.project_tasks import project_tasks
@@ -23,6 +24,11 @@ swagger = Swagger(app)
 def login_route():
   return login()
 
+@app.route("/activities", methods=["GET"])
+@swag_from("routes/activities.yml")
+def activities_route():
+  return activities()
+
 @app.route("/projects", methods=["GET"])
 @swag_from("routes/projects.yml")
 def projects_route():
@@ -32,6 +38,7 @@ def projects_route():
 @swag_from("routes/project_tasks.yml")
 def project_tasks_route(project_id):
   return project_tasks(project_id)
+
 
 @app.errorhandler(InternalServerError)
 @app.errorhandler(Unauthorized)

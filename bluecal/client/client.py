@@ -20,6 +20,9 @@ class Client:
         baseService.logout(self, session)
         self.session = None
 
+    def list_activities(self):
+        return masterDataService.get_activities(self)
+
     def list_projects(self):
         return workTimeAccountingService.get_projects(self)
 
