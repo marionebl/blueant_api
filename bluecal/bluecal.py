@@ -3,6 +3,7 @@ from flasgger import Swagger, swag_from
 from zeep.exceptions import Fault
 from .client.client import Client
 from .routes.activities import activities
+from .routes.customers import customers
 from .routes.login import login
 from .routes.projects import projects
 from .routes.project_tasks import project_tasks
@@ -45,6 +46,12 @@ def login_route():
 @swag_from("routes/activities.yml")
 def activities_route():
     return activities()
+
+
+@app.route("/customers", methods=["GET"])
+@swag_from("routes/customers.yml")
+def customers_route():
+    return customers()
 
 
 @app.route("/projects", methods=["GET"])

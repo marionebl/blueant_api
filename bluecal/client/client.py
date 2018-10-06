@@ -23,6 +23,9 @@ class Client:
     def list_activities(self):
         return masterDataService.get_activities(self)
 
+    def list_customers(self):
+        return masterDataService.get_customers(self)
+
     def list_projects(self):
         return workTimeAccountingService.get_projects(self)
 
