@@ -1,0 +1,64 @@
+Get a list of tasks available for the given project
+---
+tags:
+  - Project
+parameters:
+  - name: X-Session-ID
+    in: header
+    type: string
+    required: true
+  - name: X-Person-ID
+    in: header
+    type: string
+    required: true
+  - name: project_id
+    in: path
+    type: string
+    required: true
+definitions:
+  Task:
+    type: object
+    properties:
+      accountableType:
+        type: string
+      accountedTime:
+        type: number
+      accountedTimeAll:
+        type: number
+      children:
+        type: null
+      endTime:
+        type: date
+      name:
+        type: string
+      number:
+        type: number
+      plannedTime:
+        type: number
+      plannedTimeAll:
+        type: number
+      reasonNotAccountableID:
+        type: null
+      reasonNotAccountableName:
+        type: null
+      taskCompulsory:
+        type: boolean
+      startTime:
+        type: date
+      subjectiveProgress:
+        type: number
+      subjectiveProgressAll:
+        type: number
+      taskID:
+        type: number
+      worktimeAllowed:
+        type: boolean
+responses:
+  200:
+    description: A list of tasks for the given project
+    schema:
+      type: array
+      items:
+        $ref: '#/definitions/Task'
+    examples:
+      Projects: [ { "accountableType": "quote", "accountedTime": 0, "accountedTimeAll": 0, "children": null, "endTime": "Fri, 31 Aug 2042 21:59:59 GMT", "name": "Task Name", "number": "3", "plannedTime": 0, "plannedTimeAll": 0, "reasonNotAccountableID": null, "reasonNotAccountableName": null, "startTime": "Sat, 30 Jun 2042 22:00:00 GMT", "subjectiveProgress": 0, "subjectiveProgressAll": 0, "taskID": 834584375, "worktimeAllowed": true } ]

@@ -4,6 +4,7 @@ from zeep.exceptions import Fault
 from .client.client import Client
 from .routes.login import login
 from .routes.projects import projects
+from .routes.project_tasks import project_tasks
 from .exceptions import InternalServerError, Unauthorized
 
 app = Flask(__name__)
@@ -27,6 +28,10 @@ def login_route():
 def projects_route():
   return projects()
 
+@app.route("/project/<string:project_id>/tasks", methods=["GET"])
+@swag_from("routes/project_tasks.yml")
+def project_tasks_route(project_id):
+  return project_tasks(project_id)
 
 @app.errorhandler(InternalServerError)
 @app.errorhandler(Unauthorized)
