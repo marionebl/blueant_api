@@ -21,4 +21,7 @@ class Client:
         self.session = None
 
     def list_projects(self):
-        return workTimeAccountingService.syncProjects(self)
+        return workTimeAccountingService.get_projects(self)
+
+    def list_tasks(self, project_id):
+        return workTimeAccountingService.get_tasks(self, project_id)

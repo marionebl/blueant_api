@@ -7,14 +7,17 @@ from .masterDataService import syncActivities
 def client(c):
     return Client(c.url + 'WorktimeAccountingService?wsdl')
 
-
-def syncProjects(c):
+def get_projects(c):
     projects = client(c).service.getProjects(c.session.get('sessionID'))
     return list(map(lambda project: helpers.serialize_object(project), projects))
 
+def get_tasks(c, project_id):
+    tasks = client(c).service.getTasks(c.session.get('sessionID'), project_id)
+    return list(map(lambda task: helpers.serialize_object(task), tasks))
+
 def syncTasks(c):
     tasks={}
-    for projectName, x in syncProjects(c):
+    for projectName, x in get_projects(c):
         tasks[projectName]={}
         for task in client(c).service.getTasks(c.session.get('sessionID'), x['id']):
             tasks[projectName].update(extractTasks(task))
@@ -31,7 +34,7 @@ def extractTasks(task, prefix=''):
     return result
 
 def add(c, date, project, task, activity, billable, duration, comment):
-    projectID=syncProjects(c)[project]['id']
+    projectID=get_projects(c)[project]['id']
     taskID=syncTasks(c)[project][task]
     activityID=syncActivities(c)[activity]
 
