@@ -2,15 +2,10 @@ Get a list of tasks available for the given project
 ---
 tags:
   - Project
+security:
+  - SessionAuth: []
+    PersonAuth: []
 parameters:
-  - name: X-Session-ID
-    in: header
-    type: string
-    required: true
-  - name: X-Person-ID
-    in: header
-    type: string
-    required: true
   - name: project_id
     in: path
     type: string

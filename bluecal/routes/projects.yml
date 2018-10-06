@@ -2,15 +2,9 @@ Get a list of projects for the user
 ---
 tags:
   - Project
-parameters:
-  - name: X-Session-ID
-    in: header
-    type: string
-    required: true
-  - name: X-Person-ID
-    in: header
-    type: string
-    required: true
+security:
+  - SessionAuth: []
+    PersonAuth: []
 definitions:
   Project:
     type: object
