@@ -8,16 +8,19 @@ def client(c):
     return Client(c.url + 'WorktimeAccountingService?wsdl')
 
 def get_projects(c):
-    projects = client(c).service.getProjects(c.session.get('sessionID'))
+    projects = client(c).service.getProjects(
+        sessionID=c.session.get('sessionID')
+    )
     return list(map(lambda project: helpers.serialize_object(project), projects))
 
 def get_tasks(c, project_id):
     tasks = client(c).service.getTasks(c.session.get('sessionID'), project_id)
     return list(map(lambda task: helpers.serialize_object(task), tasks))
 
-def get_times(c):
+def get_times(c, **params):
     times = client(c).service.getPersonalWorktime(
-        sessionID=c.session.get('sessionID')
+        sessionID=c.session.get('sessionID'),
+        **params
     )
     print(times)
     return list(map(lambda time: helpers.serialize_object(time), times))

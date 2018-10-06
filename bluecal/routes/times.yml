@@ -5,6 +5,77 @@ tags:
 security:
   - SessionAuth: []
     PersonAuth: []
+parameters:
+  - name: workTimeID
+    in: query
+    schema:
+      type: integer
+    description: 
+      Get work-time with the given id.
+  - name: fromDate
+    in: query
+    schema:
+      type: string
+      format: date
+    description: 
+      Only get work-times after given fromDate.
+  - name: toDate
+    in: query
+    schema:
+      type: string
+      format: date
+    description: 
+      Only get work-times before given toDate.
+  - name: projectID
+    in: query
+    schema:
+      type: integer
+    description:
+      Only get work-times for the given project.
+  - name: taskID
+    in: query
+    schema:
+      type: integer
+    description:
+      Only get work-times for the given task.
+  - name: state
+    in: query
+    schema:
+      type: integer
+    description:
+      Only get work-times in given state.
+  - name: billable
+    in: query
+    schema:
+      type: boolean
+    description:
+      Only get work-times that are accountable.
+  - name: reasonNotAccountableID
+    in: query
+    schema:
+      type: integer
+    description:
+      Only get work-times with the given reasonNotAccountable.
+  - name: exported
+    in: query
+    schema:
+      type: boolean
+    description:
+      Only get exported work-times.
+  - name: exportStartDate
+    in: query
+    schema:
+      type: string
+      format: date
+    description:
+      Only get work-times exported after exportStartDate.
+  - name: exportEndDate
+    in: query
+    schema:
+      type: string
+      format: date
+    description:
+      Only get work-times exported before exportEndDate.
 definitions:
   AbstractCustomField:
     type: object
