@@ -6,13 +6,117 @@ security:
   - SessionAuth: []
     PersonAuth: []
 definitions:
+  AbstractCustomField:
+    type: object
+    properties:
+      ID:
+        type: number
+      active:
+        type: boolean
+      context:
+        type: string
+      entryList:
+        type: object
+        properties:
+          ListboxEntryCustomField:
+            type: array
+      isMultiSelect:
+        type: boolean
+      mandatory:
+        type: boolean
+      name:
+        type: string
+      selectedValues:
+        type: null
+      stringValue:
+        type: null
+      validatorList: 
+        type: object
+        properties:
+          Validtor: 
+            type: array
   Customer:
     type: object
     properties:
       customerID:
         type: number
+        description: PrimaryKey - must not be given in createCustomer
+      parentCustomerID: 
+        type: number
+        default: null
+        description: id of the superior customer
+      customerTypeID: 
+        type: number
+        description: the type of customer
       customerName:
         type: string
+      addition:
+        type: string
+        default: null
+        description: additional information 
+      costCenter:
+        type: string
+        default: null
+        description: the cost center associated with this customer
+      street:
+        type: string
+        default: null
+        description: address of this customer
+      postcode: 
+        type: string
+        default: null
+      location:
+        type: string
+        default: null
+      countryId:
+        type: string
+        default: null
+      industry:
+        type: string
+        default: null
+      active:
+        type: boolean
+      customFieldList:
+        type: object
+        properties:
+          AbstractCustomField:
+            type: array
+            items:
+              - $ref: '#/definitions/AbstractCustomField'
+      phone:
+        type: string
+        default: null
+        description:
+      fax:
+        type: string
+        default: null
+      email:
+        type: string
+        default: null
+      website:
+        type: string
+        default: null
+      headID:
+        type: string
+        default: null
+        description: head of this customer department
+      deputyID:
+        type: string
+        default: null
+        description: deputy of this customer department
+      customers:
+        type: object
+        properties:
+          Customers:
+            type: array
+            items:
+              - $ref: '#/definitions/Customer'
+      creditorNumber:
+        type: string
+        default: null
+      debitorNumber:
+        type: string
+        default: null
 responses:
   200:
     description: A list of customers that may be used to categorize projects
@@ -21,4 +125,276 @@ responses:
       items:
         $ref: '#/definitions/Customer'
     examples:
-      Customers: [ { "customerID": 9982047, "customerName": "ClientXYZ" } ]
+      Customers: [   {
+    "active": true, 
+    "addition": null, 
+    "costCenter": null, 
+    "countryID": null, 
+    "creditorNumber": null, 
+    "customFieldList": {
+      "AbstractCustomField": [
+        {
+          "ID": 642081312, 
+          "active": true, 
+          "context": "Department", 
+          "mandatory": false, 
+          "name": "tax id", 
+          "stringValue": null, 
+          "validatorList": {
+            "Validator": []
+          }
+        }, 
+        {
+          "ID": 642080209, 
+          "active": true, 
+          "context": "Department", 
+          "longValue": 10, 
+          "mandatory": true, 
+          "name": "due date for payment", 
+          "validatorList": {
+            "Validator": []
+          }
+        }, 
+        {
+          "ID": 108273, 
+          "active": true, 
+          "context": "Department", 
+          "mandatory": false, 
+          "name": "family name", 
+          "stringValue": null, 
+          "validatorList": {
+            "Validator": []
+          }
+        }, 
+        {
+          "ID": 108267, 
+          "active": true, 
+          "context": "Department", 
+          "entryList": {
+            "ListboxEntryCustomField": []
+          }, 
+          "isMultiSelect": false, 
+          "mandatory": false, 
+          "name": "salutation", 
+          "selectedValues": null, 
+          "validatorList": {
+            "Validator": []
+          }
+        }, 
+        {
+          "ID": 3169889837, 
+          "active": true, 
+          "context": "Department", 
+          "dateValue": null, 
+          "mandatory": false, 
+          "name": "Contract from", 
+          "validatorList": {
+            "Validator": []
+          }
+        }, 
+        {
+          "ID": 108270, 
+          "active": true, 
+          "context": "Department", 
+          "mandatory": false, 
+          "name": "Name", 
+          "stringValue": null, 
+          "validatorList": {
+            "Validator": []
+          }
+        }, 
+        {
+          "ID": 3169889784, 
+          "active": true, 
+          "booleanValue": null, 
+          "context": "Department", 
+          "mandatory": false, 
+          "name": "Contract available?", 
+          "validatorList": {
+            "Validator": []
+          }
+        }, 
+        {
+          "ID": 3295518083, 
+          "active": true, 
+          "context": "Department", 
+          "mandatory": false, 
+          "name": "vendor number", 
+          "stringValue": null, 
+          "validatorList": {
+            "Validator": []
+          }
+        }, 
+        {
+          "ID": 642081194, 
+          "active": true, 
+          "context": "Department", 
+          "entryList": {
+            "ListboxEntryCustomField": []
+          }, 
+          "isMultiSelect": false, 
+          "mandatory": false, 
+          "name": "tax free", 
+          "selectedValues": null, 
+          "validatorList": {
+            "Validator": []
+          }
+        }
+      ]
+    }, 
+    "customerID": 84364038, 
+    "customerName": "ECC", 
+    "customerTypeID": 763667567, 
+    "customers": {
+      "Customer": [
+        {
+          "active": true, 
+          "addition": null, 
+          "costCenter": null, 
+          "countryID": null, 
+          "creditorNumber": null, 
+          "customFieldList": {
+            "AbstractCustomField": [
+              {
+                "ID": 642081312, 
+                "active": true, 
+                "context": "Department", 
+                "mandatory": false, 
+                "name": "tax id", 
+                "stringValue": null, 
+                "validatorList": {
+                  "Validator": []
+                }
+              }, 
+              {
+                "ID": 642080209, 
+                "active": true, 
+                "context": "Department", 
+                "longValue": 30, 
+                "mandatory": true, 
+                "name": "due date for payment", 
+                "validatorList": {
+                  "Validator": []
+                }
+              }, 
+              {
+                "ID": 108273, 
+                "active": true, 
+                "context": "Department", 
+                "mandatory": false, 
+                "name": "family name", 
+                "stringValue": "Contact surname", 
+                "validatorList": {
+                  "Validator": []
+                }
+              }, 
+              {
+                "ID": 108267, 
+                "active": true, 
+                "context": "Department", 
+                "entryList": {
+                  "ListboxEntryCustomField": []
+                }, 
+                "isMultiSelect": false, 
+                "mandatory": false, 
+                "name": "salutation", 
+                "selectedValues": [
+                  "1448875514"
+                ], 
+                "validatorList": {
+                  "Validator": []
+                }
+              }, 
+              {
+                "ID": 3169889837, 
+                "active": true, 
+                "context": "Department", 
+                "dateValue": null, 
+                "mandatory": false, 
+                "name": "Contract", 
+                "validatorList": {
+                  "Validator": []
+                }
+              }, 
+              {
+                "ID": 108270, 
+                "active": true, 
+                "context": "Department", 
+                "mandatory": false, 
+                "name": "Name", 
+                "stringValue": "contactName", 
+                "validatorList": {
+                  "Validator": []
+                }
+              }, 
+              {
+                "ID": 3169889784, 
+                "active": true, 
+                "booleanValue": null, 
+                "context": "Department", 
+                "mandatory": false, 
+                "name": "contract available?", 
+                "validatorList": {
+                  "Validator": []
+                }
+              }, 
+              {
+                "ID": 3295518083, 
+                "active": true, 
+                "context": "Department", 
+                "mandatory": false, 
+                "name": "vendor number", 
+                "stringValue": null, 
+                "validatorList": {
+                  "Validator": []
+                }
+              }, 
+              {
+                "ID": 642081194, 
+                "active": true, 
+                "context": "Department", 
+                "entryList": {
+                  "ListboxEntryCustomField": []
+                }, 
+                "isMultiSelect": false, 
+                "mandatory": false, 
+                "name": "tax free", 
+                "selectedValues": null, 
+                "validatorList": {
+                  "Validator": []
+                }
+              }
+            ]
+          }, 
+          "customerID": 948200302, 
+          "customerName": "Client Agency", 
+          "customerTypeID": 763667567, 
+          "customers": null, 
+          "debitorNumber": "1211", 
+          "deputyID": null, 
+          "email": null, 
+          "fax": null, 
+          "headID": null, 
+          "industry": null, 
+          "location": "Hamburg", 
+          "parentCustomerID": 84364038, 
+          "phone": null, 
+          "postcode": "20152", 
+          "street": "Kundenstra\u00dfe 77", 
+          "website": null
+        }
+      ]
+    }, 
+    "debitorNumber": "1211", 
+    "deputyID": null, 
+    "email": null, 
+    "fax": null, 
+    "headID": null, 
+    "industry": null, 
+    "location": null, 
+    "parentCustomerID": null, 
+    "phone": null, 
+    "postcode": null, 
+    "street": null, 
+    "website": null
+  }] 

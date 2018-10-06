@@ -21,7 +21,7 @@ def syncActivities(c):
         activities[quote(activity.name)] = str(activity.activityID)
 
 def get_customers(c):
-    raw_customers = client(c).service.searchCustomer(
+    customers = client(c).service.searchCustomer(
         sessionID=c.session.get('sessionID')
     )
-    return list(map(lambda customer: helpers.serialize_object({'customerID': customer.customerID, 'customerName': customer.customerName}), raw_customers))
+    return list(map(lambda customer: helpers.serialize_object(customer), customers))
