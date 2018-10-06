@@ -15,6 +15,13 @@ def get_tasks(c, project_id):
     tasks = client(c).service.getTasks(c.session.get('sessionID'), project_id)
     return list(map(lambda task: helpers.serialize_object(task), tasks))
 
+def get_times(c):
+    times = client(c).service.getPersonalWorktime(
+        sessionID=c.session.get('sessionID')
+    )
+    print(times)
+    return list(map(lambda time: helpers.serialize_object(time), times))
+
 def syncTasks(c):
     tasks={}
     for projectName, x in get_projects(c):

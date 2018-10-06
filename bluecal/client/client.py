@@ -28,3 +28,6 @@ class Client:
 
     def list_tasks(self, project_id):
         return workTimeAccountingService.get_tasks(self, project_id)
+
+    def list_times(self):
+        return workTimeAccountingService.get_times(self)

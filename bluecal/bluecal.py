@@ -6,7 +6,9 @@ from .routes.activities import activities
 from .routes.login import login
 from .routes.projects import projects
 from .routes.project_tasks import project_tasks
+from .routes.times import times
 from .exceptions import InternalServerError, Unauthorized
+from .json_encoder import JSONEncoder
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -31,6 +33,7 @@ app.config['SWAGGER'] = {
 
 swagger = Swagger(app)
 
+app.json_encoder = JSONEncoder
 
 @app.route("/auth/login", methods=["POST"])
 @swag_from("routes/login.yml")
@@ -54,6 +57,11 @@ def projects_route():
 @swag_from("routes/project_tasks.yml")
 def project_tasks_route(project_id):
     return project_tasks(project_id)
+
+@app.route("/times", methods=["GET"])
+@swag_from("routes/times.yml")
+def times_route():
+    return times()
 
 
 @app.errorhandler(InternalServerError)

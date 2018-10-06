@@ -1,0 +1,104 @@
+Get a list of times for the user
+---
+tags:
+  - Time
+security:
+  - SessionAuth: []
+    PersonAuth: []
+definitions:
+  AbstractCustomField:
+    type: object
+    properties:
+      ID:
+        type: number
+      active:
+        type: boolean
+      context: # might be enum, known: Worktime
+        type: string
+      entryList:
+        type: object
+        properties:
+          ListboxEntryCustomField:
+            type: array
+      isMultiSelect:
+        type: boolean
+      mandatory:
+        type: boolean
+      name:
+        type: string
+      selectedValues: # sanitize this
+        type: null
+      stringValue: # sanititize this
+        type: null
+      validatorList: 
+        type: object
+        properties:
+          Validtor: 
+            type: array
+  Time:
+    type: object
+    properties:
+      activityID:
+        type: number
+      activityName:
+        type: string
+      billable:
+        type: boolean
+      break-share:
+        type: number
+      comment:
+        type: string
+      date:
+        type: date
+      duration:
+        type: number
+      customFieldList:
+        type: object
+        properties:
+          AbstractCustomField:
+            type: array
+            items:
+              - $ref: '#/definitions/AbstractCustomField'
+      exportDate: # sanitize this
+        type: null
+      from:
+        type: time
+      iccID: # sanitize this
+        type: null
+      iccName: # sanitize this
+        type: null
+      lastChangedDate:
+        type: datetime
+      personId:
+        type: number
+      personName:
+        type: string
+      projectID:
+        type: number
+      projectName:
+        type: string
+      reasonNotAccountableID:  # sanitize this
+        type: null
+      reasonNotAccountableName:
+        type: null
+      sessionID:
+        type: string
+      state: # might be an enum, known: 1
+        type: number
+      taskID:
+        type: number
+      taskName:
+        type: string
+      to:
+        type: time
+      workTimeID:
+        type: number
+responses:
+  200:
+    description: A list of times for the currently logged in user
+    schema:
+      type: array
+      items:
+        $ref: '#/definitions/Time'
+    examples:
+      Times: [ { "activityID": 9982047, "activityName": "Productive", "billable": false, "break-share": 0, "comment": "Some time booking", "date": "2032-03-18", "duration": 14400000, "exportDate": null, "from": "08:00:00+00:00", "iccID": null, "iccName": null, "lastChangedDate": "2032-03-21T11:32:29.668000+01:00", "personID": 70790619, "personName": "Some Person", "projectID": 235971555, "projectName": "Some Project", "reasonNotAccountableID": null, "reasonNotAccountableName": null, "sessionID": "T8CCqsczTTAuVV4fWIOe", "state": 0, "taskID": 235974159, "taskName": "Some Task", "ticketID": null, "ticketName": null, "to": "12:00:00+00:00", "workTimeID": 2638056764 } ]
