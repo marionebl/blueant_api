@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.config.from_object("config")
 
 app.config['SWAGGER'] = {
-    "title": "BlueCal API",
+    "title": "Blue Ant API",
     "version": "1.0.0",
     "uiversion": 3,
     "securityDefinitions": {

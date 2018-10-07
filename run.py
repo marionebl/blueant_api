@@ -1,3 +1,3 @@
-from bluecal import bluecal
+from blueant_api import blueant_api
 
-bluecal.app.run()
+blueant_api.app.run()
