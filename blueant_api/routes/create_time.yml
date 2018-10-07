@@ -1,4 +1,4 @@
-Get a list of times for the user
+Create a new work time entry
 ---
 tags:
   - Time
@@ -6,77 +6,93 @@ security:
   - SessionAuth: []
     PersonAuth: []
 parameters:
-  - name: workTimeID
-    in: query
-    schema:
-      type: integer
-    description: 
-      Get work-time with the given id.
-  - name: fromDate
-    in: query
-    schema:
-      type: string
-      format: date
-    description: 
-      Only get work-times after given fromDate.
-  - name: toDate
-    in: query
-    schema:
-      type: string
-      format: date
-    description: 
-      Only get work-times before given toDate.
+  - name: date
+    in: formData
+    type: string
+    format: date
+    required: true
+    description:
+      Date of this work time
+  - name: activityID
+    in: formData
+    type: number
+    description:
+      Id of activity - not allowed if ticket is given
+    required: true
   - name: projectID
-    in: query
-    schema:
-      type: integer
+    in: formData
+    type: number
+    required: true
     description:
-      Only get work-times for the given project.
+      Id of project - not allowed if ticket is given
   - name: taskID
-    in: query
-    schema:
-      type: integer
+    in: formData
+    type: number
+    required: true
     description:
-      Only get work-times for the given task.
-  - name: state
-    in: query
-    schema:
-      type: integer
-    description:
-      Only get work-times in given state.
+      Id of task - not allowed if ticket is given
   - name: billable
-    in: query
-    schema:
-      type: boolean
+    in: formData
+    type: boolean
+    required: true
     description:
-      Only get work-times that are accountable.
+      Is this work-time billable?
+  - name: from
+    in: formData
+    type: string
+    format: time
+    description:
+      Start of work time - only hour and minute are interpreted, timezone and milliseconds are ignored
+  - name: to
+    in: formData
+    type: string
+    format: time
+    description:
+      End of work-time - only hour and minute are interpreted, timezone and milliseconds are ignored
+  - name: break-share
+    in: formData
+    type: number
+    description:
+      Break in milliseconds
+  - name: duration
+    in: formData
+    type: number
+    description:
+      Duration of the worktime in seconds. Only allowed if duration recording is active for this staff - nil otherwise.
+  - name: ticketID
+    in: formData
+    type: number
+    description:
+      Id of ticket
+  - name: comment
+    in: formData
+    type: string
+    maxLength: 1000
+    description:
+      Comment - maximum length is 100 or 1000 chars depending on customizing
   - name: reasonNotAccountableID
-    in: query
-    schema:
-      type: integer
+    in: formData
+    type: integer
     description:
-      Only get work-times with the given reasonNotAccountable.
-  - name: exported
-    in: query
-    schema:
-      type: boolean
+      Reason because not accountable - only allowed if billable is false
+  - name: iccID
+    in: formData
+    type: integer
     description:
-      Only get exported work-times.
-  - name: exportStartDate
-    in: query
-    schema:
-      type: string
-      format: date
+      id of indirect cost center
+  - name: customFieldList
+    in: formData
+    type: integer
     description:
-      Only get work-times exported after exportStartDate.
-  - name: exportEndDate
-    in: query
-    schema:
-      type: string
-      format: date
-    description:
-      Only get work-times exported before exportEndDate.
+      id of indirect cost center
 definitions:
+  Error:
+    type: object
+    properties:
+      error_type:
+        type: string
+      message:
+        type: string
   AbstractCustomField:
     type: object
     properties:
@@ -254,10 +270,20 @@ definitions:
           Description of the ticket
 responses:
   200:
-    description: A list of times for the currently logged in user
+    description: A newly created work time
     schema:
-      type: array
-      items:
-        $ref: '#/definitions/Time'
+      $ref: '#/definitions/Time'
+  401:
+    description: An error indicating a wrong username password comination
+    schema:
+      $ref: '#/definitions/Error'
     examples:
-      Times: [ { "activityID": 9982047, "activityName": "Productive", "billable": false, "break-share": 0, "comment": "Some time booking", "date": "2032-03-18", "duration": 14400000, "exportDate": null, "from": "08:00:00+00:00", "iccID": null, "iccName": null, "lastChangedDate": "2032-03-21T11:32:29.668000+01:00", "personID": 70790619, "personName": "Some Person", "projectID": 235971555, "projectName": "Some Project", "reasonNotAccountableID": null, "reasonNotAccountableName": null, "sessionID": "T8CCqsczTTAuVV4fWIOe", "state": 0, "taskID": 235974159, "taskName": "Some Task", "ticketID": null, "ticketName": null, "to": "12:00:00+00:00", "workTimeID": 2638056764 } ]
+      Error: { "error_type": "InvalidUsernamePasswordCombinationException",
+          "message": "net.proventis.axis.blueant.InvalidUsernamePasswordCombinationException: InvalidUsernamePasswordCombinationException" }
+  500:
+    description: An generic server error
+    schema:
+      $ref: '#/definitions/Error'
+    examples:
+      Error: { "error_type": "Generic",
+          "message": "Something went horribly wrong" }

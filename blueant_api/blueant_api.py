@@ -8,6 +8,7 @@ from .routes.login import login
 from .routes.projects import projects
 from .routes.project_tasks import project_tasks
 from .routes.times import times
+from .routes.create_time import create_time
 from .exceptions import InternalServerError, Unauthorized
 from .json_encoder import JSONEncoder
 
@@ -69,6 +70,11 @@ def project_tasks_route(project_id):
 @swag_from("routes/times.yml")
 def times_route():
     return times()
+
+@app.route("/time", methods=["POST"])
+@swag_from("routes/create_time.yml")
+def create_time_route():
+    return create_time()
 
 
 @app.errorhandler(InternalServerError)

@@ -10,6 +10,7 @@ flask-restful = "*"
 keyring = "*"
 pendulum = "*"
 flasgger = "*"
+xmltodict = "*"
 
 [dev-packages]
 "autopep8" = "*"

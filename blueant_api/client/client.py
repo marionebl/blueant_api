@@ -8,6 +8,9 @@ class Client:
             personID=None
         )
 
+    def create_time(self, **data):
+        return workTimeAccountingService.create_time(self, **data)
+
     def login(self, username, password):
         data = baseService.login(self, username, password)
         self.session.update(dict(
