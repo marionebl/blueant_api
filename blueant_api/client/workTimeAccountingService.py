@@ -28,6 +28,13 @@ def get_times(c, **params):
     )
     return list(map(lambda time: helpers.serialize_object(time), times))
 
+def get_time(c, **params):
+    times = client(c).service.getPersonalWorktime(
+        sessionID=c.session.get('sessionID'),
+        workTimeID=params.get('workTimeID')
+    )
+    return list(map(lambda time: helpers.serialize_object(time), times))
+
 def create_time(c, **data):
     return _edit_worktime(c, 
         sessionID=c.session.get('sessionID'),

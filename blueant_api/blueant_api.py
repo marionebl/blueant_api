@@ -8,6 +8,7 @@ from .routes.login import login
 from .routes.projects import projects
 from .routes.project_tasks import project_tasks
 from .routes.times import times
+from .routes.time import time
 from .routes.create_time import create_time
 from .routes.update_time import update_time
 from .exceptions import InternalServerError, Unauthorized
@@ -72,15 +73,20 @@ def project_tasks_route(project_id):
 def times_route():
     return times()
 
+@app.route("/time/<string:time_id>", methods=["GET"])
+@swag_from("routes/time.yml")
+def time_route(time_id):
+    return time(time_id)
+
 @app.route("/time", methods=["POST"])
 @swag_from("routes/create_time.yml")
 def create_time_route():
     return create_time()
 
-@app.route("/time", methods=["PUT"])
+@app.route("/time/<string:time_id>", methods=["PUT"])
 @swag_from("routes/update_time.yml")
-def update_time_route():
-    return update_time()
+def update_time_route(time_id):
+    return update_time(time_id)
 
 
 @app.errorhandler(InternalServerError)

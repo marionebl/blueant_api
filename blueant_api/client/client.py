@@ -11,6 +11,10 @@ class Client:
     def create_time(self, **data):
         return workTimeAccountingService.create_time(self, **data)
 
+    def get_time(self, **params):
+        times = workTimeAccountingService.get_time(self, **params)
+        return times[0]
+
     def login(self, username, password):
         data = baseService.login(self, username, password)
         self.session.update(dict(

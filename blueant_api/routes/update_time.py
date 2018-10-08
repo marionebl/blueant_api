@@ -4,7 +4,7 @@ from zeep.exceptions import Fault
 from ..client.client import Client
 from ..exceptions import Unauthorized, InternalServerError
 
-def update_time():
+def update_time(time_id):
     client = Client(app.config['API_URL'])
     client.session = dict(
         sessionID=request.headers.get('X-Session-ID'),
@@ -18,7 +18,7 @@ def update_time():
 
     try:
         time = client.update_time(
-            workTimeID=data.get('workTimeID'),
+            workTimeID=time_id,
             date=data.get('date'),
             duration=data.get('duration'),
             ticketID=data.get('ticketID'),

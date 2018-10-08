@@ -1,4 +1,4 @@
-Update a work time entry
+Get a work time by id
 ---
 tags:
   - Time
@@ -10,96 +10,7 @@ parameters:
     in: path
     type: string
     required: true
-    description:
-      Id of the work time to edit
-  - name: date
-    in: formData
-    type: string
-    format: date
-    required: true
-    description:
-      Date of this work time
-  - name: activityID
-    in: formData
-    type: number
-    description:
-      Id of activity - not allowed if ticket is given
-    required: true
-  - name: projectID
-    in: formData
-    type: number
-    required: true
-    description:
-      Id of project - not allowed if ticket is given
-  - name: taskID
-    in: formData
-    type: number
-    required: true
-    description:
-      Id of task - not allowed if ticket is given
-  - name: billable
-    in: formData
-    type: boolean
-    required: true
-    description:
-      Is this work-time billable?
-  - name: comment
-    in: formData
-    type: string
-    maxLength: 1000
-    required: true
-    description:
-      Comment - maximum length is 100 or 1000 chars depending on customizing
-  - name: from
-    in: formData
-    type: string
-    format: time
-    description:
-      Start of work time - only hour and minute are interpreted, timezone and milliseconds are ignored
-  - name: to
-    in: formData
-    type: string
-    format: time
-    description:
-      End of work-time - only hour and minute are interpreted, timezone and milliseconds are ignored
-  - name: break-share
-    in: formData
-    type: number
-    description:
-      Break in milliseconds
-  - name: duration
-    in: formData
-    type: number
-    description:
-      Duration of the worktime in seconds. Only allowed if duration recording is active for this staff - nil otherwise.
-  - name: ticketID
-    in: formData
-    type: number
-    description:
-      Id of ticket
-  - name: reasonNotAccountableID
-    in: formData
-    type: integer
-    description:
-      Reason because not accountable - only allowed if billable is false
-  - name: iccID
-    in: formData
-    type: integer
-    description:
-      id of indirect cost center
-  - name: customFieldList
-    in: formData
-    type: integer
-    description:
-      id of indirect cost center
 definitions:
-  Error:
-    type: object
-    properties:
-      error_type:
-        type: string
-      message:
-        type: string
   AbstractCustomField:
     type: object
     properties:
@@ -265,7 +176,7 @@ definitions:
         nullable: true
         description:
           Id of this worktime
-      ticketID:
+      tickedID:
         type: number
         nullable: true
         description:
@@ -277,20 +188,8 @@ definitions:
           Description of the ticket
 responses:
   200:
-    description: An updated work time
+    description: The found time
     schema:
       $ref: '#/definitions/Time'
-  401:
-    description: An error indicating a wrong username password combination
-    schema:
-      $ref: '#/definitions/Error'
     examples:
-      Error: { "error_type": "InvalidUsernamePasswordCombinationException",
-          "message": "net.proventis.axis.blueant.InvalidUsernamePasswordCombinationException: InvalidUsernamePasswordCombinationException" }
-  500:
-    description: An generic server error
-    schema:
-      $ref: '#/definitions/Error'
-    examples:
-      Error: { "error_type": "Generic",
-          "message": "Something went horribly wrong" }
+      Time: { "activityID": 9982047, "activityName": "Productive", "billable": false, "break-share": 0, "comment": "Some time booking", "date": "2032-03-18", "duration": 14400000, "exportDate": null, "from": "08:00:00+00:00", "iccID": null, "iccName": null, "lastChangedDate": "2032-03-21T11:32:29.668000+01:00", "personID": 70790619, "personName": "Some Person", "projectID": 235971555, "projectName": "Some Project", "reasonNotAccountableID": null, "reasonNotAccountableName": null, "sessionID": "T8CCqsczTTAuVV4fWIOe", "state": 0, "taskID": 235974159, "taskName": "Some Task", "ticketID": null, "ticketName": null, "to": "12:00:00+00:00", "workTimeID": 2638056764 }
