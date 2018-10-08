@@ -76,6 +76,13 @@ def update_time(c, **data):
     )
 
 
+def delete_time(c, **params):
+    client(c).service.deleteWorktime(
+        sessionID=c.session.get('sessionID'),
+        workTimeID=params.get('workTimeID')
+    )
+
+
 def _edit_worktime(c, **data):
     cl = client(c)
 

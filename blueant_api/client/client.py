@@ -12,6 +12,9 @@ class Client:
     def create_time(self, **data):
         return workTimeAccountingService.create_time(self, **data)
 
+    def delete_time(self, **params):
+        return workTimeAccountingService.delete_time(self, **params)
+
     def get_time(self, **params):
         times = workTimeAccountingService.get_time(self, **params)
         return times[0]

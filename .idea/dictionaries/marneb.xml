@@ -2,6 +2,7 @@
   <dictionary name="marneb">
     <words>
       <w>uiversion</w>
+      <w>venv</w>
       <w>worktime</w>
     </words>
   </dictionary>

@@ -1,0 +1,37 @@
+Delete a work time by id
+---
+tags:
+  - Time
+security:
+  - SessionAuth: []
+    PersonAuth: []
+parameters:
+  - name: time_id
+    in: path
+    type: string
+    required: true
+definitions:
+  Error:
+    type: object
+    properties:
+    error_type:
+      type: string
+    message:
+      type: string
+responses:
+  200:
+    description: Empty response with 200 code if successful
+  401:
+    description: An error indicating a wrong username password comination
+    schema:
+      $ref: '#/definitions/Error'
+    examples:
+      Error: { "error_type": "InvalidUsernamePasswordCombinationException",
+          "message": "net.proventis.axis.blueant.InvalidUsernamePasswordCombinationException: InvalidUsernamePasswordCombinationException" }
+  500:
+    description: An generic server error
+    schema:
+      $ref: '#/definitions/Error'
+    examples:
+      Error: { "error_type": "Generic",
+          "message": "Something went horribly wrong" }
