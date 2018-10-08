@@ -10,6 +10,7 @@ from .routes.time import time
 from .routes.create_time import create_time
 from .routes.update_time import update_time
 from .routes.delete_time import delete_time
+from .routes.patch_time import patch_time
 from .exceptions import InternalServerError, Unauthorized
 from .json_encoder import JSONEncoder
 
@@ -97,6 +98,12 @@ def update_time_route(time_id):
 @swag_from("routes/delete_time.yml")
 def delete_time_route(time_id):
     return delete_time(time_id)
+
+
+@app.route("/time/<string:time_id>", methods=["PATCH"])
+@swag_from("routes/patch_time.yml")
+def patch_time_route(time_id):
+    return patch_time(time_id)
 
 
 @app.errorhandler(InternalServerError)

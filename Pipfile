@@ -11,6 +11,7 @@ keyring = "*"
 pendulum = "*"
 flasgger = "*"
 xmltodict = "*"
+jsonpatch = "*"
 
 [dev-packages]
 "autopep8" = "*"

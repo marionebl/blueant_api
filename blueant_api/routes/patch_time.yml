@@ -1,4 +1,4 @@
-Get a work time by id
+Patch a work time destructively, e.g. when releasing it to controlling
 ---
 tags:
   - Time
@@ -10,36 +10,50 @@ parameters:
     in: path
     type: string
     required: true
+  - name: patch
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/PatchRequest"
 definitions:
-  AbstractCustomField:
+  PatchRequest:
+    type: array
+    items:
+      $ref: "#/definitions/PatchDocument"
+  PatchDocument:
+    description: A JSONPatch document as defined by RFC 6902
+    example: { "op": "replace", path: "/state", value: 1 }
+    required:
+      - "op"
+      - "path"
+      - "value"
+    properties:
+      op:
+        type: string
+        description: The operation to be performed
+        enum:
+          # - "add"
+          # - "remove"
+          - "replace"
+          # - "move"
+          # - "copy"
+          # - "test"
+      path:
+        type: string
+        description: A JSON-Pointer
+      value:
+        type: integer
+        description: The value to be used within the operations.
+      # from:
+      #  type: string
+      #  description: A string containing a JSON Pointer value.
+  Error:
     type: object
     properties:
-      ID:
-        type: number
-      active:
-        type: boolean
-      context: # might be enum, known: Worktime
+      error_type:
         type: string
-      entryList:
-        type: object
-        properties:
-          ListboxEntryCustomField:
-            type: array
-      isMultiSelect:
-        type: boolean
-      mandatory:
-        type: boolean
-      name:
+      message:
         type: string
-      selectedValues: # sanitize this
-        type: null
-      stringValue: # sanititize this
-        type: null
-      validatorList: 
-        type: object
-        properties:
-          Validtor: 
-            type: array
   Time:
     type: object
     properties:
@@ -146,7 +160,7 @@ definitions:
       sessionID:
         type: string
         nullable: false
-      state: 
+      state:
         type: number
         nullable: false
         # 0 - Open
@@ -188,8 +202,22 @@ definitions:
           Description of the ticket
 responses:
   200:
-    description: The found time
+    description: The patched time
     schema:
       $ref: '#/definitions/Time'
     examples:
       Time: { "activityID": 9982047, "activityName": "Productive", "billable": false, "break-share": 0, "comment": "Some time booking", "date": "2032-03-18", "duration": 14400000, "exportDate": null, "from": "08:00:00+00:00", "iccID": null, "iccName": null, "lastChangedDate": "2032-03-21T11:32:29.668000+01:00", "personID": 70790619, "personName": "Some Person", "projectID": 235971555, "projectName": "Some Project", "reasonNotAccountableID": null, "reasonNotAccountableName": null, "sessionID": "T8CCqsczTTAuVV4fWIOe", "state": 0, "taskID": 235974159, "taskName": "Some Task", "ticketID": null, "ticketName": null, "to": "12:00:00+00:00", "workTimeID": 2638056764 }
+  401:
+    description: An error indicating a wrong username password comination
+    schema:
+      $ref: '#/definitions/Error'
+    examples:
+      Error: { "error_type": "InvalidUsernamePasswordCombinationException",
+          "message": "net.proventis.axis.blueant.InvalidUsernamePasswordCombinationException: InvalidUsernamePasswordCombinationException" }
+  500:
+    description: An generic server error
+    schema:
+      $ref: '#/definitions/Error'
+    examples:
+      Error: { "error_type": "Generic",
+          "message": "Something went horribly wrong" }

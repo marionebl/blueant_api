@@ -83,6 +83,24 @@ def delete_time(c, **params):
     )
 
 
+def change_time_state(c, work_time_id=None, work_time_state=None):
+    list_type = client(c).get_type('ns2:T_WorkTimeStateList')
+    item_type = client(c).get_type('ns2:T_WorkTimeState')
+    state_type = client(c).get_type('ns2:WorkTimeStateValues')
+
+    work_time_state_list = list_type([
+        item_type(
+            workTimeID=work_time_id,
+            state=state_type(work_time_state),
+        )
+    ])
+
+    client(c).service.changeWorktimeState(
+        sessionID=c.session.get('sessionID'),
+        worktimeStateList=work_time_state_list
+    )
+
+
 def _edit_worktime(c, **data):
     cl = client(c)
 

@@ -9,6 +9,9 @@ class Client:
             personID=None
         )
 
+    def change_time_state(self, **params):
+        return workTimeAccountingService.change_time_state(self, **params)
+
     def create_time(self, **data):
         return workTimeAccountingService.create_time(self, **data)
 
