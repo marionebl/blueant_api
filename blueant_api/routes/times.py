@@ -10,7 +10,6 @@ def times():
     )
 
     return jsonify(client.list_times(
-        workTimeID=request.args.get('workTimeID'),
         fromDate=request.args.get('fromDate'),
         toDate=request.args.get('toDate'),
         projectID=request.args.get('projectID'),

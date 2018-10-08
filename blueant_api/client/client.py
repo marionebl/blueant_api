@@ -37,3 +37,6 @@ class Client:
 
     def list_times(self, **params):
         return workTimeAccountingService.get_times(self, **params)
+
+    def update_time(self, **data):
+        return workTimeAccountingService.update_time(self, **data)

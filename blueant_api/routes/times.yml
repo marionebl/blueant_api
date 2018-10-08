@@ -6,12 +6,6 @@ security:
   - SessionAuth: []
     PersonAuth: []
 parameters:
-  - name: workTimeID
-    in: query
-    schema:
-      type: integer
-    description: 
-      Get work-time with the given id.
   - name: fromDate
     in: query
     schema:

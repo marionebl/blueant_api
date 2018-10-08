@@ -9,6 +9,7 @@ from .routes.projects import projects
 from .routes.project_tasks import project_tasks
 from .routes.times import times
 from .routes.create_time import create_time
+from .routes.update_time import update_time
 from .exceptions import InternalServerError, Unauthorized
 from .json_encoder import JSONEncoder
 
@@ -75,6 +76,11 @@ def times_route():
 @swag_from("routes/create_time.yml")
 def create_time_route():
     return create_time()
+
+@app.route("/time", methods=["PUT"])
+@swag_from("routes/update_time.yml")
+def update_time_route():
+    return update_time()
 
 
 @app.errorhandler(InternalServerError)

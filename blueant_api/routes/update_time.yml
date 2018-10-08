@@ -1,4 +1,4 @@
-Create a new work time entry
+Update a work time entry
 ---
 tags:
   - Time
@@ -6,6 +6,12 @@ security:
   - SessionAuth: []
     PersonAuth: []
 parameters:
+  - name: workTimeID
+    in: formData
+    type: integer
+    required: true
+    description:
+      Id of the work time to edit
   - name: date
     in: formData
     type: string
@@ -259,7 +265,7 @@ definitions:
         nullable: true
         description:
           Id of this worktime
-      tickedID:
+      ticketID:
         type: number
         nullable: true
         description:
@@ -271,11 +277,11 @@ definitions:
           Description of the ticket
 responses:
   200:
-    description: A newly created work time
+    description: An updated work time
     schema:
       $ref: '#/definitions/Time'
   401:
-    description: An error indicating a wrong username password comination
+    description: An error indicating a wrong username password combination
     schema:
       $ref: '#/definitions/Error'
     examples:

@@ -1,9 +1,9 @@
 from zeep import CachingClient as Client, helpers
+from zeep.exceptions import Fault
 from xmltodict import parse
 from ..common import dateparam
 from ..common.util import quote
 from .masterDataService import syncActivities
-
 
 def client(c):
     return Client(c.url + 'WorktimeAccountingService?wsdl')
@@ -26,37 +26,61 @@ def get_times(c, **params):
         sessionID=c.session.get('sessionID'),
         **params
     )
-    print(times)
     return list(map(lambda time: helpers.serialize_object(time), times))
 
-
 def create_time(c, **data):
+    return _edit_worktime(c, 
+        sessionID=c.session.get('sessionID'),
+        date=data.get('date'),
+        duration=data.get('duration'),
+        ticketID=data.get('ticketID'),
+        projectID=data.get('projectID'),
+        taskID=data.get('taskID'),
+        activityID=data.get('activityID'),
+        comment=data.get('comment'),
+        billable=data.get('billable'),
+        reasonNotAccountableID=data.get('reasonNotAccountableID'),
+        iccID=data.get('iccID'),
+        **{
+            'from': data.get('from'),
+            'to': data.get('to')
+        }
+    )
+
+def update_time(c, **data):
+    return _edit_worktime(c, 
+        sessionID=c.session.get('sessionID'),
+        workTimeID=int(data.get('workTimeID')),
+        date=data.get('date'),
+        duration=data.get('duration'),
+        ticketID=data.get('ticketID'),
+        projectID=data.get('projectID'),
+        taskID=data.get('taskID'),
+        activityID=data.get('activityID'),
+        comment=data.get('comment'),
+        billable=data.get('billable'),
+        reasonNotAccountableID=data.get('reasonNotAccountableID'),
+        iccID=data.get('iccID'),
+        **{
+            'from': data.get('from'),
+            'to': data.get('to')
+        }
+    )
+
+def _edit_worktime(c, **data):
     cl = client(c)
 
     # Access raw xml response due to https://github.com/mvantellingen/python-zeep/pull/690
     with cl.settings(raw_response=True):
-        response = cl.service.editWorktime(
-            sessionID=c.session.get('sessionID'),
-            date=data.get('date'),
-            duration=data.get('duration'),
-            ticketID=data.get('ticketID'),
-            projectID=data.get('projectID'),
-            taskID=data.get('taskID'),
-            activityID=data.get('activityID'),
-            comment=data.get('comment'),
-            billable=data.get('billable'),
-            reasonNotAccountableID=data.get('reasonNotAccountableID'),
-            iccID=data.get('iccID'),
-            **{
-                'from': data.get('from'),
-                'to': data.get('to')
-            }
-        )
-
+        response = cl.service.editWorktime(**data)
         data = parse(response.text)
-        workTimeID = int(data['soapenv:Envelope']['soapenv:Body']['ns2:mandatoryID']['#text'])
+        fault = data['soapenv:Envelope']['soapenv:Body']['soapenv:Fault']['faultstring'] if 'soapenv:Fault' in data['soapenv:Envelope']['soapenv:Body'] else None
 
-        return get_times(c, workTimeID=workTimeID)
+        if fault is not None:
+            raise Fault(fault)
+        else:
+            workTimeID = int(data['soapenv:Envelope']['soapenv:Body']['ns2:mandatoryID']['#text'])
+            return get_times(c, workTimeID=workTimeID)
 
 
 def syncTasks(c):
