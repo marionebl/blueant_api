@@ -1,4 +1,5 @@
-from . import baseService, humanService, masterDataService, projectsService, workTimeAccountingService
+from . import baseService, masterDataService, workTimeAccountingService
+
 
 class Client:
     def __init__(self, url):

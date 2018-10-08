@@ -1,8 +1,8 @@
-from flask import Flask, request, jsonify, abort, Response, current_app as app
-from flasgger import Swagger
+from flask import request, jsonify, current_app as app
 from zeep.exceptions import Fault
 from ..client.client import Client
 from ..exceptions import Unauthorized, InternalServerError
+
 
 def update_time(time_id):
     client = Client(app.config['API_URL'])

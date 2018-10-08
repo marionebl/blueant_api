@@ -2,7 +2,7 @@ from flask import request, jsonify, current_app as app
 from zeep.exceptions import Fault
 from ..client.client import Client
 from ..exceptions import Unauthorized, InternalServerError
-from xml.etree import ElementTree
+
 
 def time(time_id):
     client = Client(app.config['API_URL'])

@@ -1,7 +1,5 @@
-from flask import Flask, request, jsonify, abort, Response
+from flask import Flask, jsonify
 from flasgger import Swagger, swag_from
-from zeep.exceptions import Fault
-from .client.client import Client
 from .routes.activities import activities
 from .routes.customers import customers
 from .routes.login import login
@@ -39,6 +37,7 @@ swagger = Swagger(app)
 
 app.json_encoder = JSONEncoder
 
+
 @app.route("/auth/login", methods=["POST"])
 @swag_from("routes/login.yml")
 def login_route():
@@ -68,20 +67,24 @@ def projects_route():
 def project_tasks_route(project_id):
     return project_tasks(project_id)
 
+
 @app.route("/times", methods=["GET"])
 @swag_from("routes/times.yml")
 def times_route():
     return times()
+
 
 @app.route("/time/<string:time_id>", methods=["GET"])
 @swag_from("routes/time.yml")
 def time_route(time_id):
     return time(time_id)
 
+
 @app.route("/time", methods=["POST"])
 @swag_from("routes/create_time.yml")
 def create_time_route():
     return create_time()
+
 
 @app.route("/time/<string:time_id>", methods=["PUT"])
 @swag_from("routes/update_time.yml")
