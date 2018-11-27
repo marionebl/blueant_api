@@ -12,6 +12,7 @@ pendulum = "*"
 flasgger = "*"
 xmltodict = "*"
 jsonpatch = "*"
+zappa = "*"
 
 [dev-packages]
 "autopep8" = "*"

@@ -19,10 +19,8 @@ pip install --upgrade pip==18.0 pipenv
 pipenv sync
 pipenv shell
 
-# Configure the proxy to point at your blueant instance
-echo "API_URL=\"https://[blueant-host]/blueant/services/\"" > config.py
-
 # Start development server at http://localhost:5000
 # API docs available at http://localhost:5000/apidocs
-./run.sh 
+# Configure the proxy to point at your blueant instance via env var
+BLUEANT_API_URL="https://[blueant-host]/blueant/services/"; ./run.sh 
 ```
