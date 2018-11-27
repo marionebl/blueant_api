@@ -16,7 +16,7 @@ from .json_encoder import JSONEncoder
 
 app = Flask(__name__)
 app.config.from_object("config")
-
+print(app.config)
 app.config['SWAGGER'] = {
     "title": "Blue Ant API",
     "version": "1.0.0",

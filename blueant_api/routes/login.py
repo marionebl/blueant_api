@@ -11,7 +11,7 @@ def login():
     username = data.get("username")
     password = data.get("password")
 
-    client = Client(app.config['API_URL'])
+    client = Client(app.config['BLUEANT_API_URL'])
 
     try:
         session = client.login(username, password)

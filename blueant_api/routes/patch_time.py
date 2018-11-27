@@ -9,7 +9,7 @@ from ..exceptions import Unauthorized, InternalServerError
 
 def patch_time(time_id):
     try:
-        client = Client(app.config['API_URL'])
+        client = Client(app.config['BLUEANT_API_URL'])
 
         client.session = dict(
             sessionID=request.headers.get('X-Session-ID'),
