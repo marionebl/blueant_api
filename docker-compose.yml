@@ -1,0 +1,9 @@
+version: "3"
+
+services: 
+    blueant-python-box:             
+        build: . 
+        volumes: 
+            - ".:/app"
+        ports:
+            - "5000:5000"
